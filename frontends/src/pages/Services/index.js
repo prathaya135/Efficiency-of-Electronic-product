@@ -108,7 +108,18 @@ export default function Services() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col mb-10 bg-gradient-to-b from-green-200 to-white">
+      <div
+  className="relative flex flex-col min-h-screen "
+  style={{
+    backgroundImage: "url('/backgroundServices.png')",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+  }}
+>
+  <div className="absolute inset-0 bg-white/70 backdrop-blur-md z-0"></div>
+   <div className="relative z-10">
+      <div className="flex flex-col mb-10">
         <motion.div
           className="flex flex-col items-center"
           initial={{ opacity: 0, scale: 0.8 }}
@@ -263,6 +274,8 @@ export default function Services() {
             </motion.div>
           )}
         </div>
+      </div>
+      </div>
       </div>
     </>
   );

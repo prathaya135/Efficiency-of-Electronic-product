@@ -412,15 +412,188 @@ device_inputs = {
     "Soundbar": ["Daily Usage (hours)", "Condition(New/Good/Fair/Poor)", "Battery Health (%)"]
 }
 
+device_inputs_duplicate = {
+    "Laptop": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "RAM Size (GB)",
+        "Device Age (years)",
+        "Brand",
+        "Model",
+        "Storage Size (GB)",
+        "Processor Type",
+        "Operating System"
+    ],
+    "Tablet": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Screen Size (inches)",
+        "Device Age (years)",
+        "Brand",
+        "Model",
+        "Storage Size (GB)",
+        "Operating System"
+    ],
+    "Smartphone": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Storage Size (GB)",
+        "Brand",
+        "Model",
+        "RAM Size (GB)",
+        "Operating System",
+        "Device Age (years)"
+    ],
+    "Desktop Computer": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Power Usage (Watts)",
+        "Device Age (years)",
+        "Brand",
+        "Model",
+        "RAM Size (GB)",
+        "Storage Size (GB)",
+        "Processor Type",
+        "Operating System"
+    ],
+    "Smartwatch": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Device Age (years)",
+        "Brand",
+        "Model",
+        "Screen Size (inches)"
+    ],
+    "E-Reader": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Storage Size (GB)",
+        "Device Age (years)",
+        "Brand",
+        "Model",
+        "Screen Type (e.g., e-ink)"
+    ],
+    "Wearable Fitness Tracker": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Average Daily Steps Tracked",
+        "Brand",
+        "Model",
+        "Heart Rate Monitor (Yes/No)",
+        "Device Age (years)"
+    ],
+    "Television": [
+        "Screen Size (inches)",
+        "Resolution (e.g., 1080p, 4K)",
+        "Device Age (years)",
+        "Condition(New/Good/Fair/Poor)",
+        "Brand",
+        "Model",
+        "Display Technology (LED/LCD/OLED)",
+        "Smart TV (Yes/No)"
+    ],
+    "Digital Camera": [
+        "Megapixels",
+        "Condition (New/Good/Fair/Poor)",
+        "Device Age (years)",
+        "Usage (hours per month)",
+        "Brand",
+        "Model",
+        "Sensor Type (e.g., CMOS)",
+        "Lens Type (Interchangeable/Fixed)"
+    ],
+    "Printer": [
+        "Monthly Usage (pages printed)",
+        "Condition(New/Good/Fair/Poor)",
+        "Device Age (years)",
+        "Brand",
+        "Model",
+        "Type (Inkjet/Laser)",
+        "Color Printing (Yes/No)"
+    ],
+    "Scanner": [
+        "Monthly Usage (pages scanned)",
+        "Condition(New/Good/Fair/Poor)",
+        "Device Age (years)",
+        "Brand",
+        "Model",
+        "Scan Resolution (DPI)"
+    ],
+    "Smart Home Assistant": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Device Age (years)",
+        "Brand",
+        "Model",
+        "Voice Assistant (e.g., Alexa/Google/Siri)"
+    ],
+    "Headphones": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Brand",
+        "Model",
+        "Type (Wired/Wireless)",
+        "Noise Cancelling (Yes/No)",
+        "Device Age (years)"
+    ],
+    "Wireless/Bluetooth Earbuds": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Brand",
+        "Model",
+        "Noise Cancelling (Yes/No)",
+        "Device Age (years)"
+    ],
+    "Portable Bluetooth Speaker": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Brand",
+        "Model",
+        "Waterproof (Yes/No)",
+        "Device Age (years)"
+    ],
+    "Home Theater System": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Brand",
+        "Model",
+        "Number of Speakers",
+        "Power Consumption (Watts)",
+        "Device Age (years)"
+    ],
+    "Soundbar": [
+        "Daily Usage (hours)",
+        "Condition(New/Good/Fair/Poor)",
+        "Battery Health (%)",
+        "Brand",
+        "Model",
+        "Subwoofer Included (Yes/No)",
+        "Bluetooth Enabled (Yes/No)",
+        "Device Age (years)"
+    ]
+}
+
+
+
 @app.route('/select-device', methods=['POST'])
 def select_device():
     data = request.get_json()
     device_type = data.get("device_type")
 
-    if device_type not in device_inputs:
+    if device_type not in device_inputs_duplicate:
         return jsonify({"error": "Invalid device type"}), 400
 
-    input_fields = device_inputs[device_type]
+    input_fields = device_inputs_duplicate[device_type]
     return jsonify({
         "device_type": device_type,
         "num_inputs": len(input_fields),
@@ -464,17 +637,40 @@ def predict():
         #     print("Invalid choice!")
         #     return
 
+        # data = request.get_json()
+        # # print(data);
+        # if not data:
+        #     return jsonify({"error": "No input data provided"}), 400
+
+        # device_type = data.get("device_type")
+        # # inputs = data.get("inputs")
+
+        # # Collect user input for the selected device
+        # # user_input = get_device_inputs(device_type)
+        # user_input= data.get("inputs")
+
         data = request.get_json()
-        # print(data);
+
         if not data:
             return jsonify({"error": "No input data provided"}), 400
 
         device_type = data.get("device_type")
-        # inputs = data.get("inputs")
+        input_values = data.get("inputs")
 
-        # Collect user input for the selected device
-        # user_input = get_device_inputs(device_type)
-        user_input= data.get("inputs")
+        if not device_type or device_type not in device_inputs_duplicate:
+            return jsonify({"error": "Invalid or missing device type"}), 400
+
+        extended_fields = device_inputs_duplicate[device_type]
+        core_fields = device_inputs[device_type]
+
+        if len(input_values) != len(extended_fields):
+            return jsonify({"error": "Input count does not match expected for device type"}), 400
+
+        # Map all inputs from duplicate to field names
+        input_map = dict(zip(extended_fields, input_values))
+
+        # Filter out only the original fields from core inputs
+        user_input = {field: input_map[field] for field in core_fields if field in input_map}
         user_input = convert_input(user_input)
         print(f"User input for {device_type}: {user_input}")
         if not user_input:
